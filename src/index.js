@@ -1,3 +1,11 @@
 import "./styles.css";
 
-console.log("Works!");
+
+const eventHandler = (() => {
+    const addButtons = document.querySelectorAll('.add-button');
+    
+
+
+
+
+})();
