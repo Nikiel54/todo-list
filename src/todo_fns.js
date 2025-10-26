@@ -24,6 +24,8 @@ export const todoController = (() => {
         // Can return true or false here as well to signal to UI modules if failure or success
         if (!success) {
             console.log("Error: item already exists.");
+        } else {
+            console.log("Succesful addition.");
         }
     }
 

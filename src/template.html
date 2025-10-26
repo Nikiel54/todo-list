@@ -6,6 +6,25 @@
     <title>Homepage</title>
 </head>
 <body>
-    
+    <button id="add-task">New Task</button>
+    <dialog class="todo-form">
+        <form class="add-todo-form" method="post">
+            <label for="title-input">Title</label>
+            <input type="text" id="title-input" name="title-input">
+
+            <label for="description-input">Description</label>
+            <textarea id="description-input" name="description-input"></textarea>
+
+            <label for="date-input"></label>
+            <input type="date" id="date-input" name="date-input">
+            
+            <label for="tags-input">Mark important</label>
+            <input type="checkbox" id="tags-input" name="tags-input">
+
+            <div class="submit-btn">
+                <button type="submit">Add task</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
