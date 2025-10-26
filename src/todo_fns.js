@@ -1,4 +1,4 @@
-import { loadItemData, saveItemData } from "./database_queries.js";
+import { loadItemData, saveItemData, resetItemData } from "./database_queries.js";
 
 
 // CRUD operations for todo items
@@ -12,7 +12,7 @@ export const todoController = (() => {
 
     const createTodoItem = (title, description, dueDate, tags) => {
         const newItem = {
-            id: "1",
+            id: crypto.randomUUID(),
             title,
             description,
             dueDate,
@@ -20,12 +20,36 @@ export const todoController = (() => {
             tags,
         };
 
-        addTodoItem(newItem, todos);
+        const success = addTodoItem(newItem);
+        // Can return true or false here as well to signal to UI modules if failure or success
+        if (!success) {
+            console.log("Error: item already exists.");
+        }
+    }
+
+    // function to maintain sorted order on tags to facilitate comparisons
+    function normalizeTags(tags) {
+        return [...new Set(tags.map(t => t.trim().toLowerCase()))].sort();
+    }
+
+    function compareTodoItems(item1, item2) {
+        return item1.title.trim().toLowerCase() === item2.title.trim().toLowerCase() &&
+            item1.description.trim().toLowerCase() === item2.description.trim().toLowerCase() &&
+            item1.dueDate === item2.dueDate &&
+            JSON.stringify(normalizeTags(item1.tags)) === JSON.stringify(normalizeTags(item2.tags));
     }
 
     const addTodoItem = (item) => {
-        todos.push(item);
-        saveItemData(todos);
+        const existsAlready = todos.some(todo =>
+                compareTodoItems(item, todo)
+        );
+
+        if (existsAlready) { return false; }
+        else {
+            todos.push(item);
+            saveItemData(todos);
+            return true;
+        }
     }
 
     const updateTodoItem = (itemId, newData) => {
@@ -47,8 +71,8 @@ export const todoController = (() => {
 
     // optional for clearing state
     const resetMemory = () => {
-        todos = [];
-        saveItemData(todos);
+        resetItemData();
+        init();
     }
 
     return {
