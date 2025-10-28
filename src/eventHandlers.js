@@ -2,9 +2,11 @@ import { todoController } from "./todo_fns";
 import { loadItemData } from "./database_queries.js";
 
 export const eventController = (() => {
+    const dialogForm = document.querySelector(".todo-form");
+
+
     const createTaskEvent = () => {
         const addTaskForm = document.querySelector(".add-todo-form");
-        const dialogForm = document.querySelector(".todo-form");
 
         addTaskForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -30,28 +32,25 @@ export const eventController = (() => {
 
     const newTaskShowEvent = () => {
         const newTaskBtn = document.getElementById("add-task");
-        const dialogForm = document.querySelector(".todo-form");
         newTaskBtn.addEventListener("click", () => {
             dialogForm.showModal();
         })
     }
 
-    /*
-    // 🟩 Close dialog when clicking outside its boundaries
-    dialog.addEventListener("click", (e) => {
-    const rect = dialog.getBoundingClientRect();
-    const clickedOutside =
-        e.clientX < rect.left ||
-        e.clientX > rect.right ||
-        e.clientY < rect.top ||
-        e.clientY > rect.bottom;
+    const closeNewTaskForm = () => {
+        const closeBtn = document.querySelector(".form-top > button");
+        const addTaskForm = document.querySelector(".add-todo-form");
 
-    if (clickedOutside) dialog.close();
-    });
-    */
+        closeBtn.addEventListener("click", () => {
+            addTaskForm.reset();
+            dialogForm.close();
+        });
+    }
+
 
     return {
         createTaskEvent,
         newTaskShowEvent,
+        closeNewTaskForm,
     }
 })();

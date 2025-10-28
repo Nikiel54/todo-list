@@ -7,4 +7,5 @@ todoController.resetMemory()
 
 
 eventController.newTaskShowEvent();
-eventController.createTaskEvent()
+eventController.closeNewTaskForm();
+eventController.createTaskEvent();
