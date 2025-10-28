@@ -6,7 +6,29 @@
     <title>Homepage</title>
 </head>
 <body>
-    <button id="add-task">New Task</button>
+    <div id="sidebar">
+        <div></div>
+        <div class="sidebar-row">
+            <button id="add-task">
+                <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="16px" height="16px"><path d="M23,11H13V1a1,1,0,0,0-1-1h0a1,1,0,0,0-1,1V11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H11V23a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1V13H23a1,1,0,0,0,1-1h0A1,1,0,0,0,23,11Z"/></svg>
+                New Task
+            </button>
+        </div>
+        <div class="sidebar-row">
+            <button>
+                Search
+            </button>
+        </div>
+        <div class="sidebar-row">
+            <button>Today</button>
+        </div>
+        <div class="sidebar-row">
+            <button>Completed</button>
+        </div>
+    </div>
+    <div id="display-content">
+
+    </div>
     <dialog class="todo-form">
         <form class="add-todo-form" method="post">
             <div class="form-top">

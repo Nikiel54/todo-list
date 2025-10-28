@@ -1,20 +1,22 @@
 :root {
-    --bg-cream: #FAF3E0;
+    --bg-cream: rgba(250, 243, 224);
     --spring-green: #A7C957;
     --mossy-green: #6A994E;
     --soft-brown: #5C4033;
     --dark-green: #06402B;
-
-
+    --wheat-gold: #F2C57C;
+    --wheat-gold-rgba: rgba(242, 197, 124, 0.3);
+    --muted-grey: #C6B8A6;
+    --sidebar-hover-brown: rgba(242, 197, 124, 0.25);
 
     box-sizing: border-box;
     font-family: 'Quicksand', sans-serif;
 }
 
 body {
-    height: 500px;
+    height: 100vh;
     margin: 0px;
-    background-color: blanchedalmond;
+    display: flex;
 }
 
 h1, h2, h3, h4, p, div {
@@ -22,14 +24,58 @@ h1, h2, h3, h4, p, div {
     margin: 0px;
 }
 
-#add-task {
-    border-radius: 20px;
-    cursor: pointer;
-    width: 100px;
-    height: 30px;
-    background-color: rgb(238, 236, 241);
-    border: 2px solid grey;
+/* SIDEBAR STYLING */
+#sidebar {
+    flex: 0 1 175px;
+    background: linear-gradient(180deg, var(--mossy-green), var(--spring-green));
+    box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1px repeat(4, 30px) 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
+
+.sidebar-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-row > button {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 140px;
+    height: 25px;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: var(--bg-cream);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.sidebar-row > button:hover {
+    background-color: var(--sidebar-hover-brown);
+    transform: translate(0px, -1px);
+}
+
+.sidebar-row > button > svg {
+    fill: var(--bg-cream);
+}
+
+#display-content {
+    flex: 1 1 auto;
+    background-color: var(--bg-cream);
+}
+
+
+
 
 /* FORM STYLING */
 
@@ -46,8 +92,8 @@ h1, h2, h3, h4, p, div {
 }
 
 .todo-form::backdrop {
-    backdrop-filter: blur(2px);
-    opacity: 0.25;
+    backdrop-filter: blur(3px);
+    opacity: 0.55;
 }
 
 .add-todo-form {
