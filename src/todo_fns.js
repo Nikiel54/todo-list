@@ -1,4 +1,5 @@
 import { loadItemData, saveItemData, resetItemData } from "./database_queries.js";
+import { compareAsc, differenceInDays, isBefore } from 'date-fns';
 
 
 // CRUD operations for todo items
@@ -41,14 +42,34 @@ export const todoController = (() => {
             JSON.stringify(normalizeTags(item1.tags)) === JSON.stringify(normalizeTags(item2.tags));
     }
 
+    function linearTaskInsertion(item) {
+        const newTaskdate = item.dueDate;
+        const n = todos.length;
+        let inserted = false;
+
+        for (let i = 0; i < n; ++i) {
+            // found where to insert
+            if (compareAsc(todos[i].dueDate, newTaskdate) === 1) {
+                todos.splice(i, 0, item);
+                inserted = true;
+                break;
+            }
+        }
+
+        if (!inserted) {
+            todos.push(item);
+        }
+    }
+
     const addTodoItem = (item) => {
+        // checking if task already exists, though unlikely.
         const existsAlready = todos.some(todo =>
                 compareTodoItems(item, todo)
         );
 
         if (existsAlready) { return false; }
         else {
-            todos.push(item);
+            linearTaskInsertion(item); // ensures sorted order
             saveItemData(todos);
             return true;
         }
@@ -77,11 +98,34 @@ export const todoController = (() => {
         init();
     }
 
+    const filterOngoingTasks = (value) => {
+        // This filters by days
+        const today = new Date();
+
+        let filteredTodos = todos.filter((task) => {
+            if (isBefore(task.dueDate, today)) {
+                return false;
+            }
+            // checks for long term tasks with no due date.
+            else if (task.dueDate === "indefinite") {
+                return false;
+            }
+
+            const daysLeft = differenceInDays(new Date(task.dueDate), today);
+
+            if (daysLeft <= value) {
+                return true;
+            }
+        })
+        return filteredTodos // array containing tasks left to do within value days
+    }
+
     return {
         init,
         createTodoItem,
         updateTodoItem,
         deleteTodoItem,
+        filterOngoingTasks,
         resetMemory,
     }
 })();

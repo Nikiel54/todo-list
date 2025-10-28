@@ -1,5 +1,6 @@
 import { todoController } from "./todo_fns";
 import { loadItemData } from "./database_queries.js";
+import { parseISO } from 'date-fns';
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
@@ -20,7 +21,9 @@ export const eventController = (() => {
                 tags.push(importantInput.value);
             }
 
-            const creationSuccess = todoController.createTodoItem(titleInput, descInput, dueDateInput, tags);
+            const dueDate = parseISO(dueDateInput); // converts to ISO date string
+
+            const creationSuccess = todoController.createTodoItem(titleInput, descInput, dueDate, tags);
 
             if (creationSuccess) {
                 console.log("Task created successfully!");
