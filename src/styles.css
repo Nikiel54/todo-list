@@ -130,7 +130,6 @@ h1, h2, h3, h4, p, div {
     display: flex;
     flex-direction: column;
     padding-top: 10px;
-    height: 400px;
 }
 
 .divider {
@@ -140,7 +139,7 @@ h1, h2, h3, h4, p, div {
 
 .task-item {
     display: flex;
-    padding: 5px;
+    padding: 10px;
     padding-right: 40px;
 }
 
@@ -167,6 +166,7 @@ h1, h2, h3, h4, p, div {
 }
 
 .task-content h4 {
+    flex: 1;
     font-weight: 500;
 }
 
@@ -176,7 +176,15 @@ h1, h2, h3, h4, p, div {
     color: var(--light-brown);
 }
 
+.task-content > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  /* ensures “…” truncation */
+    max-width: 300px;     /* adjust for your layout */
+}
+
 .date-display {
+    flex: 0 0 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,8 +216,22 @@ h1, h2, h3, h4, p, div {
     gap: 40px;
 }
 
+.task-actions > .action-btn > svg:hover {
+    filter: drop-shadow(0 0 3px var(--wheat-gold));
+}
+
 .action-btn {
     fill: var(--soft-brown);
+}
+
+.action-btn > svg {
+    width: 20px;
+    height: 20px;
+}
+
+.check-box {
+    width: 20px;
+    height: 20px;
 }
 
 

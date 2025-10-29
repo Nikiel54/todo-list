@@ -1,6 +1,7 @@
 import { todoController } from "./todo_fns";
 import { loadItemData } from "./database_queries.js";
 import { parseISO } from 'date-fns';
+import { uiController } from "./ui.js";
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
@@ -62,6 +63,9 @@ export const eventController = (() => {
 
             //insert function to turn off btn styling
             turnOffAddBtn(newTaskBtn);
+
+            // Display all tasks stored
+            uiController.displayAllTasks();
 
             let list = loadItemData();
             console.log("Stored tasks:");

@@ -102,6 +102,11 @@ export const todoController = (() => {
         // This filters by days
         const today = new Date();
 
+        // query for all tasks, no filter applied
+        if (value < 0) {
+            return todos;
+        }
+
         let filteredTodos = todos.filter((task) => {
             if (isBefore(task.dueDate, today)) {
                 return false;
