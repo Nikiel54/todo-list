@@ -1,8 +1,9 @@
 :root {
-    --bg-cream: rgba(250, 243, 224);
+    --bg-cream: #FAF3E0;
     --spring-green: #A7C957;
     --mossy-green: #6A994E;
     --soft-brown: #5C4033;
+    --light-brown: #927264;
     --dark-green: #06402B;
     --wheat-gold: #F2C57C;
     --wheat-gold-rgba: rgba(242, 197, 124, 0.3);
@@ -26,15 +27,40 @@ h1, h2, h3, h4, p, div {
 
 /* SIDEBAR STYLING */
 #sidebar {
-    flex: 0 1 175px;
+    flex: 0 1 300px;
     background: linear-gradient(180deg, var(--mossy-green), var(--spring-green));
     box-shadow: 2px 0 6px rgba(0,0,0,0.15);
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1px repeat(4, 30px) 1fr;
+    grid-template-rows: 70px repeat(4, 30px) 1fr;
     align-items: center;
     justify-content: center;
     gap: 20px;
+}
+
+#profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 10px;
+    padding-top: 20px;
+}
+
+#profile-section > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wheat-gold);
+    background: none;
+    border: none;
+    gap: 20px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#profile-section > button > img {
+    border-radius: 50%;
+    border: 2px solid var(--wheat-gold);
 }
 
 .sidebar-row {
@@ -45,18 +71,18 @@ h1, h2, h3, h4, p, div {
 
 .sidebar-row > button {
     display: flex;
-    gap: 8px;
-    justify-content: center;
+    gap: 20px;
+    justify-content: left;
     align-items: center;
     border-radius: 10px;
     cursor: pointer;
-    width: 140px;
-    height: 25px;
+    width: 270px;
+    padding: 5px;
     background: transparent;
     outline: none;
     border: none;
     color: var(--bg-cream);
-    font-size: 20px;
+    font-size: 12px;
     font-weight: 700;
 }
 
@@ -74,7 +100,117 @@ h1, h2, h3, h4, p, div {
     background-color: var(--bg-cream);
 }
 
+/* END OF SIDEBAR STYLING */
 
+
+/* MAIN CONTENT STYLING */
+
+#display-content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    gap: 25px;
+}
+
+#content-header {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-size: 22px;
+    color: var(--dark-green);
+}
+
+.content-section-hdr {
+    color: var(--mossy-green);
+}
+
+#content-section {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    height: 400px;
+}
+
+.divider {
+    flex: 0 0 auto;
+    border-top: 1px solid var(--muted-grey);
+}
+
+.task-item {
+    display: flex;
+    padding: 5px;
+    padding-right: 40px;
+}
+
+.task-item .task-content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    gap: 10px;
+}
+
+.task-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    gap: 3px;
+    color: var(--soft-brown);
+    font-size: 18px;
+}
+
+.task-content > div {
+    display: flex;
+    gap: 40px;
+}
+
+.task-content h4 {
+    font-weight: 500;
+}
+
+.task-content p {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--light-brown);
+}
+
+.date-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-display > p {
+    color: var(--mossy-green);
+    font-size: 14px;
+}
+
+.date-display > svg {
+    fill: var(--mossy-green);
+}
+
+.task-item button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0px;
+
+}
+
+.task-actions {
+    flex: 0 0 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.action-btn {
+    fill: var(--soft-brown);
+}
 
 
 /* FORM STYLING */

@@ -6,6 +6,4 @@ import { eventController } from "./eventHandlers.js";
 todoController.resetMemory()
 
 
-eventController.newTaskShowEvent();
-eventController.closeNewTaskForm();
-eventController.createTaskEvent();
+eventController.setEvents();
