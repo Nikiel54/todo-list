@@ -8,7 +8,8 @@
     --wheat-gold: #F2C57C;
     --wheat-gold-rgba: rgba(242, 197, 124, 0.3);
     --muted-grey: #C6B8A6;
-    --sidebar-hover-brown: rgba(242, 197, 124, 0.25);
+    --sidebar-hover-brown: rgba(244, 208, 149, 0.25);
+    --yellow-brown: #ac6e0b;
 
     box-sizing: border-box;
     font-family: 'Quicksand', sans-serif;
@@ -205,7 +206,6 @@ h1, h2, h3, h4, p, div {
     border: none;
     background: none;
     padding: 0px;
-
 }
 
 .task-actions {
@@ -216,12 +216,13 @@ h1, h2, h3, h4, p, div {
     gap: 40px;
 }
 
-.task-actions > .action-btn > svg:hover {
-    filter: drop-shadow(0 0 3px var(--wheat-gold));
-}
 
 .action-btn {
     fill: var(--soft-brown);
+}
+
+.action-btn:hover {
+    filter: drop-shadow(0 0 3px var(--yellow-brown));
 }
 
 .action-btn > svg {
@@ -235,12 +236,13 @@ h1, h2, h3, h4, p, div {
 }
 
 
+
+
 /* FORM STYLING */
 
 .todo-form {
     --section-text-clr: var(--dark-green);
     --input-text-clr: var(--mossy-green);
-
 
     padding-left: 15px;
     padding-right: 15px;
@@ -313,6 +315,7 @@ h1, h2, h3, h4, p, div {
     width: 450px;
     height: 25px;
     overflow: hidden;
+    font-family: monospace;
 }
 
 #form-footer {

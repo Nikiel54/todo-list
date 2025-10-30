@@ -76,7 +76,7 @@ export const todoController = (() => {
     }
 
     const updateTodoItem = (itemId, newData) => {
-        const itemIndex = todos.findIndex(item => item.id === itemId);
+        const itemIndex = todos.findIndex(item => item.id == itemId);
         if (itemIndex === -1) {
             console.log("Error: Todo Item not found!");
             return todos;

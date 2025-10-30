@@ -3,9 +3,12 @@ import { loadItemData } from "./database_queries.js";
 import { parseISO } from 'date-fns';
 import { uiController } from "./ui.js";
 
+
+
+export const FAR_FUTURE = new Date(8640000000000000);
+
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
-    const FAR_FUTURE = new Date(8640000000000000);
 
     const setEvents = () => {
         createTaskEvent();
@@ -66,6 +69,7 @@ export const eventController = (() => {
 
             // Display all tasks stored
             uiController.displayAllTasks();
+            actionBtnEvents();
 
             let list = loadItemData();
             console.log("Stored tasks:");
@@ -119,6 +123,39 @@ export const eventController = (() => {
             })
         });
     }
+
+
+    // Meant to add functionality to every action btn in the task list
+    const actionBtnEvents = () => {
+        const taskContentParent = document.getElementById("content-section");
+
+        taskContentParent.addEventListener(("click"), (e) => {
+            const Btn = e.target.closest(".action-btn");
+            if (!Btn) return; // click was not on a button
+
+            const action = Btn.dataset.action;
+            const taskId = Btn.dataset.taskId;
+
+            switch (action) {
+                case "Check":
+                const isComplete = Btn.dataset.state === "complete";
+                todoController.updateTodoItem(taskId, { completed: !isComplete });
+                uiController.displayAllTasks(); // safely re-render
+                break;
+
+                case "Edit":
+                // open edit form, etc.
+                console.log("Edit clicked", taskId);
+                break;
+
+                case "Remove":
+                todoController.deleteTodoItem(taskId);
+                uiController.displayAllTasks();
+                break;
+            }
+        })
+    }
+
 
     return {
         setEvents,
