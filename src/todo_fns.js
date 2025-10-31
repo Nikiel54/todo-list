@@ -75,6 +75,11 @@ export const todoController = (() => {
         }
     }
 
+    const readTodoItem = (itemId) => {
+        const itemIndex = todos.findIndex(item => item.id == itemId);
+        return todos[itemIndex];
+    }
+
     const updateTodoItem = (itemId, newData) => {
         const itemIndex = todos.findIndex(item => item.id == itemId);
         if (itemIndex === -1) {
@@ -84,6 +89,7 @@ export const todoController = (() => {
 
         todos[itemIndex] = Object.assign(todos[itemIndex], newData);
         saveItemData(todos);
+        return true;
     }
 
     const deleteTodoItem = (itemId) => {
@@ -128,6 +134,7 @@ export const todoController = (() => {
     return {
         init,
         createTodoItem,
+        readTodoItem,
         updateTodoItem,
         deleteTodoItem,
         filterOngoingTasks,

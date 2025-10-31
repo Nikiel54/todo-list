@@ -64,11 +64,12 @@ export const uiController = (() => {
         
         // parse stored date into proper format
         let dateText = "";
-        if (task.dueDate == FAR_FUTURE) {
+        if (task.dueDate == FAR_FUTURE || task.dueDate == "") {
             dateText = "long-term";
         } else {
             dateText = format(task.dueDate, "MM/dd/yyyy");
         }
+
         const dateContainer = document.createElement("p");
         dateContainer.textContent = dateText;
         dateDisplay.appendChild(dateContainer);
