@@ -9,6 +9,7 @@ export const FAR_FUTURE = new Date(8640000000000000);
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
+    let lastClickedSection = null;
 
     const setEvents = () => {
         createTaskEvent();
@@ -26,7 +27,6 @@ export const eventController = (() => {
         newTaskBtn.style.color = oldClr;
         svgChild.style.fill = oldClr;
     }
-
 
 
     // Event for submitting new task form and updating database.
@@ -120,6 +120,7 @@ export const eventController = (() => {
         return format(parsed, "yyyy-MM-dd");
         }
 
+
     const openEditForm = (task, itemId) => {
         const addTaskForm = document.querySelector(".add-todo-form");
 
@@ -160,29 +161,42 @@ export const eventController = (() => {
 
 
     // Makes clicking sidebar sections interactible
-    const sidebarClickEvents = () => {
-        const sidebarBtns = document.querySelectorAll(".sidebar-row > button");
-        const isClicked = "displaying";
-        const notClicked = "unfocused";
+    function sidebarClickEvents() {
+    const sidebarBtns = document.querySelectorAll(".sidebar-row > button");
+    const activeColor = "#F2C57C";
+    const inactiveColor = "#FAF3E0";
 
-        sidebarBtns.forEach((Btn) => {
-            const newClr = "#F2C57C";
-            const oldClr = "#FAF3E0";
-            Btn.addEventListener("click", (e) => {
-                const svgChild = e.currentTarget.querySelector("svg");
+    sidebarBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+        const clickedBtn = e.currentTarget;
 
-                const currState = e.currentTarget.dataset.id;
-                if (currState === isClicked) {
-                    e.currentTarget.style.color = oldClr;
-                    svgChild.style.fill = oldClr;
-                    e.currentTarget.dataset.id = notClicked; // turn state off
-                } else {
-                    e.currentTarget.style.color = newClr;
-                    svgChild.style.fill = newClr;
-                    e.currentTarget.dataset.id = isClicked; // turn state on
-                }
-            })
+        // If we already had a selected button, reset its color
+        if (lastClickedSection && lastClickedSection !== clickedBtn) {
+            const prevSvg = lastClickedSection.querySelector("svg");
+            lastClickedSection.style.color = inactiveColor;
+            if (prevSvg) prevSvg.style.fill = inactiveColor;
+            lastClickedSection.dataset.id = "unfocused";
+        }
+
+        // Toggle the clicked button
+        const svgChild = clickedBtn.querySelector("svg");
+        const isActive = clickedBtn.dataset.id === "displaying";
+
+        if (isActive) {
+            // turn off
+            clickedBtn.style.color = inactiveColor;
+            if (svgChild) svgChild.style.fill = inactiveColor;
+            clickedBtn.dataset.id = "unfocused";
+            lastClickedSection = null;
+        } else {
+            // turn on
+            clickedBtn.style.color = activeColor;
+            if (svgChild) svgChild.style.fill = activeColor;
+            clickedBtn.dataset.id = "displaying";
+            lastClickedSection = clickedBtn;
+        }
         });
+    });
     }
 
 

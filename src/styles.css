@@ -89,7 +89,6 @@ h1, h2, h3, h4, p, div {
 
 .sidebar-row > button:hover {
     background-color: var(--sidebar-hover-brown);
-    transform: translate(0px, -1px);
 }
 
 .sidebar-row > button > svg {
