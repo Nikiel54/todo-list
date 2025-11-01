@@ -433,7 +433,7 @@ h1, h2, h3, h4, p, div {
   margin-top: 10px;
 }
 
-#login-form input[type="text"] {
+#login-form > input[type="text"] {
   background-color: var(--bg-cream);
   border: 2px solid var(--dark-green);
   border-radius: 8px;
@@ -445,7 +445,7 @@ h1, h2, h3, h4, p, div {
   transition: 0.2s ease;
 }
 
-#login-form input[type="text"]:focus {
+#login-form > input[type="text"]:focus {
   border-color: var(--wheat-gold);
   box-shadow: 0 0 4px var(--wheat-gold);
 }
