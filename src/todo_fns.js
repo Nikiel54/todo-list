@@ -1,5 +1,8 @@
 import { loadItemData, saveItemData, resetItemData } from "./database_queries.js";
-import { compareAsc, differenceInDays, isBefore } from 'date-fns';
+import { parseISO, isValid, compareAsc, differenceInDays, isBefore } from 'date-fns';
+import { FAR_FUTURE } from "./eventHandlers.js";
+
+
 
 
 // CRUD operations for todo items
@@ -104,9 +107,38 @@ export const todoController = (() => {
         init();
     }
 
+    function parseDateSafe(dateValue) {
+        // Convert stored strings or undefined to a valid Date
+        if (!dateValue || dateValue === FAR_FUTURE) {
+            return parseISO(FAR_FUTURE);
+        }
+
+        if (dateValue instanceof Date) {
+            return dateValue;
+        }
+
+        const parsed = parseISO(dateValue);
+        return isValid(parsed) ? parsed : parseISO(FAR_FUTURE);
+    }
+
+    const sortTodosByDueDate = () => {
+        todos.sort((a, b) => {
+            const aDate = parseDateSafe(a.dueDate);
+            const bDate = parseDateSafe(b.dueDate);
+
+            // Push long-term tasks (FAR_FUTURE) to the end
+            if (a.dueDate === FAR_FUTURE && b.dueDate !== FAR_FUTURE) return 1;
+            if (b.dueDate === FAR_FUTURE && a.dueDate !== FAR_FUTURE) return -1;
+
+            return compareAsc(aDate, bDate);
+        });
+    }
+
+
     const filterOngoingTasks = (value) => {
         // This filters by days
         const today = new Date();
+        sortTodosByDueDate();
 
         // query for all tasks, no filter applied
         if (value < 0) {

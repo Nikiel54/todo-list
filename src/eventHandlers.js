@@ -5,7 +5,7 @@ import { uiController } from "./ui.js";
 
 
 
-export const FAR_FUTURE = new Date(8640000000000000);
+export const FAR_FUTURE = "9999-12-31T23:59:59.999Z";
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
@@ -16,6 +16,7 @@ export const eventController = (() => {
         newTaskShowEvent();
         closeNewTaskForm();
         sidebarClickEvents();
+        actionBtnEvents();
     }
 
     function turnOffAddBtn(newTaskBtn) {
@@ -222,12 +223,16 @@ export const eventController = (() => {
                 // open edit form.
                 const task = todoController.readTodoItem(taskId);
                 openEditForm(task, taskId);
-                console.log("Edit clicked", taskId);
+                console.log("Edit clicked");
                 break;
 
                 case "Remove":
                 todoController.deleteTodoItem(taskId);
                 uiController.displayAllTasks();
+                console.log("Item removed");
+                let list = loadItemData();
+                console.log("Stored tasks:");
+                console.log(list);
                 break;
             }
         })

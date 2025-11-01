@@ -1,6 +1,6 @@
 // This module denotes functions for rendering tasks on the screen
 import { todoController } from "./todo_fns";
-import { format } from "date-fns";
+import { differenceInDays, format, parseISO, startOfDay } from "date-fns";
 import { FAR_FUTURE } from "./eventHandlers";
 
 
@@ -50,12 +50,21 @@ export const uiController = (() => {
         const taskContent = document.createElement("div");
         taskContent.classList.add("task-content");
 
-        const textContent = document.createElement("div");
+        const contentFirstLine = document.createElement("div");
+        contentFirstLine.classList.add("content-first-line");
         
         // Title
         const title = document.createElement("h4");
         title.textContent = task.title;
-        textContent.appendChild(title);
+        contentFirstLine.appendChild(title);
+
+        // check if marked for tags
+        if (task.tags.length > 0 && task.tags[0] === "Important") {
+            const tag = document.createElement("h3");
+            tag.classList.add("tag");
+            tag.textContent = "Important";
+            contentFirstLine.appendChild(tag);
+        }
 
         // Display Due Date
         const dateDisplay = document.createElement("div");
@@ -64,23 +73,50 @@ export const uiController = (() => {
         
         // parse stored date into proper format
         let dateText = "";
+        const dateContainer = document.createElement("p");
+
         if (task.dueDate == FAR_FUTURE || task.dueDate == "") {
             dateText = "long-term";
         } else {
-            dateText = format(task.dueDate, "MM/dd/yyyy");
+            const today = startOfDay(new Date());
+            const parsedStoredDate = parseISO(task.dueDate);
+            const storedDate = startOfDay(parsedStoredDate);
+            const timeLeft = differenceInDays(storedDate, today);
+
+            const stdDate = format(task.dueDate, "MM/dd/yyyy");
+
+            if (timeLeft < 0) {
+                dateText = "Missed";
+                dateContainer.style.color = "red";
+            }
+            if (timeLeft == 0) {
+                dateText = "Due Today!";
+            }
+            else if (timeLeft > 0 && timeLeft <= 7) {
+                dateText = `${timeLeft} days left`;
+            } else {
+                dateText = stdDate;
+            }
         }
 
-        const dateContainer = document.createElement("p");
         dateContainer.textContent = dateText;
         dateDisplay.appendChild(dateContainer);
-        textContent.appendChild(dateDisplay);
+        contentFirstLine.appendChild(dateDisplay);
 
 
-        // Lastly we append back to top div and append description as well
-        taskContent.appendChild(textContent);
+        // Lastly we append back to top div
+        taskContent.appendChild(contentFirstLine);
+
+        // Now we make div for second line
+        const contentSecondLine = document.createElement("div");
+        contentSecondLine.classList.add("content-second-line");
+
+        // Filling in description
         const descriptionText = document.createElement("p");
         descriptionText.textContent = task.description;
-        taskContent.appendChild(descriptionText);
+        contentSecondLine.appendChild(descriptionText);
+
+        taskContent.appendChild(contentSecondLine);
         taskContentWrapper.appendChild(taskContent);
         
         return taskContentWrapper;

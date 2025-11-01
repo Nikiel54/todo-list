@@ -160,9 +160,9 @@ h1, h2, h3, h4, p, div {
     font-size: 18px;
 }
 
-.task-content > div {
+.task-content .content-first-line {
     display: flex;
-    gap: 40px;
+    gap: 10px;
 }
 
 .task-content h4 {
@@ -176,15 +176,8 @@ h1, h2, h3, h4, p, div {
     color: var(--light-brown);
 }
 
-.task-content > p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;  /* ensures “…” truncation */
-    max-width: 300px;     /* adjust for your layout */
-}
-
 .date-display {
-    flex: 0 0 150px;
+    flex: 0 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -192,12 +185,40 @@ h1, h2, h3, h4, p, div {
 }
 
 .date-display > p {
+    flex: 0 0 80px;
     color: var(--mossy-green);
     font-size: 14px;
 }
 
 .date-display > svg {
     fill: var(--mossy-green);
+}
+
+.content-second-line {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 25px;
+}
+
+.content-second-line > p {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  /* ensures “…” truncation */
+    max-width: 300px;     /* adjust for your layout */
+}
+
+.tag {
+    flex: 0 0 auto;
+    background-color: var(--wheat-gold);
+    color: var(--dark-green);
+    border: 1px solid #c7a45b;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
 }
 
 .task-item button {
