@@ -99,7 +99,25 @@ export const eventController = (() => {
             turnOffAddBtn(newTaskBtn);
 
             // Display all tasks stored
-            uiController.displayTasks(-1, false);
+            const section = lastClickedSection.dataset.section;
+            let days = 0;
+
+            switch (section) {
+                case "Upcoming":
+                    days = -1; // filter nothing and display all
+                    uiController.displayTasks(days, false);
+                    break;
+                case "Today":
+                    days = 0; // display today
+                    uiController.displayTasks(days, false)
+                    break;
+                case "Completed":
+                    days = -1; // display all that are completed
+                    uiController.displayTasks(days, true);
+                    break;
+            }
+
+            // sets back functionality to task buttons
             actionBtnEvents();
 
             let list = loadItemData();
@@ -318,7 +336,7 @@ export const eventController = (() => {
         loginDialog.showModal();
     }
 
-    const handleLogins = () => {
+    const handleLogins = (callback) => {
         // submissions
         const loginDialog = document.getElementById("login-dialog");
         const loginForm = document.getElementById("login-form");
@@ -329,7 +347,7 @@ export const eventController = (() => {
             setUserName(userName); // sets saved username
             loginForm.reset();
             loginDialog.close();
-            uiController.displayUser(userName);
+            if (callback) callback(userName);
         })
     }
 

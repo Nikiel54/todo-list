@@ -19,6 +19,7 @@ body {
     height: 100vh;
     margin: 0px;
     display: flex;
+    overflow: hidden;
 }
 
 h1, h2, h3, h4, p, div {
@@ -131,7 +132,26 @@ h1, h2, h3, h4, p, div {
     display: flex;
     flex-direction: column;
     padding-top: 10px;
+    overflow-y: auto;  /* enables vertical scrolling */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding-bottom: 40px;
 }
+
+/* Optional: add subtle scrollbar styling */
+#content-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+#content-section::-webkit-scrollbar-thumb {
+  background: var(--muted-grey);
+  border-radius: 4px;
+}
+
+#content-section::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-green);
+}
+
 
 .divider {
     flex: 0 0 auto;

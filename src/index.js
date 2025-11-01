@@ -3,17 +3,26 @@ import { todoController } from "./todo_fns.js";
 import { eventController } from "./eventHandlers.js";
 import { uiController } from "./ui.js";
 
-let userName = ""
+let userName = "";
 
-if (localStorage.getItem("currentUser") === null) {
-    eventController.openLoginForm();
-    eventController.handleLogins();
-} else {
-    userName = localStorage.getItem("currentUser");
+function startApp() {
+    todoController.init();
+    uiController.displayUser(userName);
+    uiController.displayTasks(-1, false); // display all by default
+    eventController.setEvents();
 }
 
-todoController.init();
+const storedUser = localStorage.getItem("currentUser");
 
-uiController.displayUser(userName);
-uiController.displayTasks(-1, false); // display all by default
-eventController.setEvents();
+if (!storedUser) {
+    // Show login dialog, and only start after login completes
+    eventController.openLoginForm();
+    eventController.handleLogins((newUser) => {
+    userName = newUser;
+    localStorage.setItem("currentUser", userName);
+    startApp(); // initialize everything after login
+    });
+} else {
+    userName = storedUser;
+    startApp(); // returning user → start immediately
+}
