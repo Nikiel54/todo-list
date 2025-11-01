@@ -1,5 +1,5 @@
 import { todoController } from "./todo_fns";
-import { loadItemData } from "./database_queries.js";
+import { loadItemData, setUserName } from "./database_queries.js";
 import { format, parseISO, isValid } from 'date-fns';
 import { uiController } from "./ui.js";
 
@@ -293,8 +293,31 @@ export const eventController = (() => {
     }
 
 
+    const openLoginForm = () => {
+        const loginDialog = document.getElementById("login-dialog");
+        loginDialog.showModal();
+    }
+
+    const handleLogins = () => {
+        // submissions
+        const loginDialog = document.getElementById("login-dialog");
+        const loginForm = document.getElementById("login-form");
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const userName = document.getElementById("user-logins").value.trim();
+
+            setUserName(userName); // sets saved username
+            loginForm.reset();
+            loginDialog.close();
+            uiController.displayUser(userName);
+        })
+    }
+
+
     return {
         setEvents,
+        openLoginForm,
+        handleLogins,
     }
 })();
 

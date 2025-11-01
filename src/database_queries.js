@@ -16,4 +16,9 @@ export function saveItemData(todos) {
 
 export function resetItemData() {
     localStorage.removeItem("todos");
+    localStorage.setItem("currentUser", null);
+}
+
+export function setUserName(userName) {
+  localStorage.setItem("currentUser", userName);
 }

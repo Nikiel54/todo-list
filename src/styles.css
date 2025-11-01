@@ -45,6 +45,7 @@ h1, h2, h3, h4, p, div {
     justify-content: left;
     padding-left: 10px;
     padding-top: 20px;
+    padding-left: 20px;
 }
 
 #profile-section > button {
@@ -375,4 +376,107 @@ h1, h2, h3, h4, p, div {
 
 /* End of form styling */
 
-/* SIDEBAR STYLING */
+
+/* Login form styling */
+
+#login-dialog {
+  background-color: var(--mossy-green);
+  border: 3px solid var(--dark-green);
+  border-radius: 12px;
+  padding: 30px 40px;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  color: var(--dark-green);
+  animation: fadeIn 0.3s ease-out;
+}
+
+#login-dialog::backdrop {
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- FORM ELEMENTS ---------- */
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+#login-form > h2 {
+  font-size: 1.8rem;
+  color: var(--dark-green);
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+#login-form input[type="text"] {
+  background-color: var(--bg-cream);
+  border: 2px solid var(--dark-green);
+  border-radius: 8px;
+  color: var(--dark-green);
+  font-size: 1rem;
+  padding: 8px 10px;
+  width: 90%;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+#login-form input[type="text"]:focus {
+  border-color: var(--wheat-gold);
+  box-shadow: 0 0 4px var(--wheat-gold);
+}
+
+/* ---------- SUBMIT BUTTON ---------- */
+
+#login-form-submit {
+  background-color: var(--wheat-gold);
+  color: var(--dark-green);
+  border: 2px solid var(--dark-green);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#login-form-submit:hover {
+  background-color: #f8dca3; /* lighter wheat tone */
+  transform: scale(1.03);
+}
+
+/* ---------- CLOSE BUTTON ---------- */
+
+#login-form > button[type="button"] {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+#login-form > button[type="button"] svg {
+  fill: var(--bg-cream);
+  transition: fill 0.2s ease;
+}
+
+#login-form > button[type="button"]:hover svg {
+  fill: var(--wheat-gold);
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

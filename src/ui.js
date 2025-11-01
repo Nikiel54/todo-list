@@ -193,9 +193,16 @@ export const uiController = (() => {
     }
 
 
+    const displayUser = (userName) => {
+        const profileName = document.querySelector("#profile-section h1");
+        profileName.textContent = userName;
+    }
+
+
     return {
         displayTasks,
         updateContentHeaders,
+        displayUser,
     }
 })();
 
