@@ -1,5 +1,5 @@
 import { loadItemData, saveItemData, resetItemData } from "./database_queries.js";
-import { parseISO, isValid, compareAsc, differenceInDays, isBefore } from 'date-fns';
+import { parseISO, isValid, compareAsc, differenceInDays, isBefore, startOfDay } from 'date-fns';
 import { FAR_FUTURE } from "./eventHandlers.js";
 
 
@@ -139,7 +139,7 @@ export const todoController = (() => {
         console.log(`${days}, ${completed}`);
         console.log("Inside filterer now");
         // This filters by days
-        const today = new Date();
+        const today = startOfDay(new Date());
         sortTodosByDueDate();
         console.log("Sorted");
         let filteredTodos = todos;
@@ -168,7 +168,8 @@ export const todoController = (() => {
             // Skip if overdue
             if (isBefore(parsedDate, today)) return false;
 
-            const daysLeft = differenceInDays(parsedDate, today);
+            const storedDate = startOfDay(parsedDate);
+            const daysLeft = differenceInDays(storedDate, today);
             return daysLeft <= days;
         });
 

@@ -9,7 +9,8 @@ export const FAR_FUTURE = "9999-12-31T23:59:59.999Z";
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
-    let lastClickedSection = document.querySelector('button[data-section="Upcoming"]');
+    const upcomingSection = document.querySelector('button[data-section="Upcoming"]');
+    let lastClickedSection = upcomingSection;
     const activeColor = "#F2C57C";
     const inactiveColor = "#FAF3E0";
 
@@ -22,9 +23,9 @@ export const eventController = (() => {
         actionBtnEvents();
     }
 
+
     // Means to set the upcoming section to active by default.
-    const initSidebarSections = (lastClickedSection) => {
-        lastClickedSection = document.querySelector('button[data-section="Upcoming"]');
+    const initSidebarSections = () => {
         let lastClickedSvg = lastClickedSection.querySelector("svg");
         lastClickedSection.style.color = activeColor;
         lastClickedSvg.style.fill = activeColor;
@@ -92,11 +93,13 @@ export const eventController = (() => {
             addTaskForm.reset();
             dialogForm.close();
 
+            initSidebarSections();
+
             //insert function to turn off btn styling
             turnOffAddBtn(newTaskBtn);
 
             // Display all tasks stored
-            uiController.displayTasks(-1, true);
+            uiController.displayTasks(-1, false);
             actionBtnEvents();
 
             let list = loadItemData();
@@ -178,6 +181,21 @@ export const eventController = (() => {
         sidebarBtns.forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 const clickedBtn = e.currentTarget;
+                const section = clickedBtn.dataset.section;
+                const svgChild = clickedBtn.querySelector("svg");
+
+                if (section === "New") {
+                    // keep previous button highlighted
+                    if (lastClickedSection) {
+                        lastClickedSection.style.color = activeColor;
+                        const prevSvg = lastClickedSection.querySelector("svg");
+                        if (prevSvg) prevSvg.style.fill = activeColor;
+                        lastClickedSection.dataset.id = "displaying";
+                    }
+
+                    return; // don't run the rest of this logic
+                }
+
 
                 // If we already had a selected button, reset its color
                 if (lastClickedSection && lastClickedSection !== clickedBtn) {
@@ -187,8 +205,6 @@ export const eventController = (() => {
                     lastClickedSection.dataset.id = "unfocused";
                 }
 
-                // Toggle the clicked button
-                const svgChild = clickedBtn.querySelector("svg");
                 const isActive = clickedBtn.dataset.id === "displaying";
 
                 if (isActive) {
@@ -206,7 +222,6 @@ export const eventController = (() => {
                 }
 
                 // Call display function to display selected section
-                const section = clickedBtn.dataset.section;
                 let days = 0;
 
                 switch (section) {
@@ -260,6 +275,11 @@ export const eventController = (() => {
                     days = -1;
                     completed = true;
                     break;
+                default:
+                // Fallback if a new/unknown section appears
+                days = -1;
+                completed = false;
+                break;
             }
 
             switch (action) {

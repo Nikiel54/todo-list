@@ -1,6 +1,6 @@
 // This module denotes functions for rendering tasks on the screen
 import { todoController } from "./todo_fns";
-import { differenceInDays, format, parseISO, startOfDay } from "date-fns";
+import { differenceInDays, format, parseISO, startOfDay, isValid } from "date-fns";
 import { FAR_FUTURE } from "./eventHandlers";
 
 
@@ -75,27 +75,32 @@ export const uiController = (() => {
         let dateText = "";
         const dateContainer = document.createElement("p");
 
-        if (task.dueDate == FAR_FUTURE || task.dueDate == "") {
+        if (task.dueDate === FAR_FUTURE || task.dueDate === "" || task.dueDate == null) {
             dateText = "long-term";
         } else {
             const today = startOfDay(new Date());
-            const parsedStoredDate = parseISO(task.dueDate);
-            const storedDate = startOfDay(parsedStoredDate);
-            const timeLeft = differenceInDays(storedDate, today);
+            const parsedDate = task.dueDate instanceof Date ? task.dueDate : parseISO(task.dueDate);
 
-            const stdDate = format(task.dueDate, "MM/dd/yyyy");
-
-            if (timeLeft < 0) {
-                dateText = "Missed";
-                dateContainer.style.color = "red";
-            }
-            if (timeLeft == 0) {
-                dateText = "Due Today!";
-            }
-            else if (timeLeft > 0 && timeLeft <= 7) {
-                dateText = `${timeLeft} days left`;
+            if (!isValid(parsedDate)) {
+                dateText = "Invalid date";
             } else {
-                dateText = stdDate;
+                const storedDate = startOfDay(parsedDate);
+                const timeLeft = differenceInDays(storedDate, today);
+                const stdDate = format(storedDate, "MM/dd/yyyy");
+                
+
+                if (timeLeft < 0) {
+                    dateText = "Missed";
+                    dateContainer.style.color = "red";
+                }
+                if (timeLeft == 0) {
+                    dateText = "Due Today!";
+                }
+                else if (timeLeft > 0 && timeLeft <= 7) {
+                    dateText = `${timeLeft} days left`;
+                } else {
+                    dateText = stdDate;
+                }
             }
         }
 

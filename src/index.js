@@ -4,7 +4,8 @@ import { eventController } from "./eventHandlers.js";
 import { uiController } from "./ui.js";
 
 let userName = ""
-if (localStorage.getItem("currentUser") === "null") {
+
+if (localStorage.getItem("currentUser") === null) {
     eventController.openLoginForm();
     eventController.handleLogins();
 } else {
@@ -12,6 +13,7 @@ if (localStorage.getItem("currentUser") === "null") {
 }
 
 todoController.init();
+
 uiController.displayUser(userName);
 uiController.displayTasks(-1, false); // display all by default
 eventController.setEvents();
