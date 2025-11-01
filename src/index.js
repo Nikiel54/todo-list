@@ -4,5 +4,5 @@ import { eventController } from "./eventHandlers.js";
 import { uiController } from "./ui.js";
 
 todoController.init();
-uiController.displayAllTasks();
+uiController.displayTasks(-1, false);
 eventController.setEvents();

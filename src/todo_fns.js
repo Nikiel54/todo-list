@@ -135,33 +135,45 @@ export const todoController = (() => {
     }
 
 
-    const filterOngoingTasks = (value) => {
+    const filterOngoingTasks = (days, completed) => {
+        console.log(`${days}, ${completed}`);
+        console.log("Inside filterer now");
         // This filters by days
         const today = new Date();
         sortTodosByDueDate();
+        console.log("Sorted");
+        let filteredTodos = todos;
 
-        // query for all tasks, no filter applied
-        if (value < 0) {
-            return todos;
+        // filter on completion first
+        if (completed === true) {
+            console.log("Filtered for complete");
+            filteredTodos = todos.filter(task => task.completed === true);
+        }
+        
+        if (days < 0) {
+            console.log("Return all");
+            return filteredTodos;
         }
 
-        let filteredTodos = todos.filter((task) => {
-            if (isBefore(task.dueDate, today)) {
-                return false;
-            }
-            // checks for long term tasks with no due date.
-            else if (task.dueDate === "indefinite") {
-                return false;
-            }
+        filteredTodos = filteredTodos.filter(task => {
+            const rawDate = task.dueDate;
 
-            const daysLeft = differenceInDays(new Date(task.dueDate), today);
+            // Skip tasks with indefinite or missing date
+            if (!rawDate || rawDate === "indefinite") return false;
 
-            if (daysLeft <= value) {
-                return true;
-            }
-        })
-        return filteredTodos // array containing tasks left to do within value days
-    }
+            // Parse safely
+            const parsedDate = rawDate instanceof Date ? rawDate : parseISO(rawDate);
+            if (!isValid(parsedDate)) return false;
+
+            // Skip if overdue
+            if (isBefore(parsedDate, today)) return false;
+
+            const daysLeft = differenceInDays(parsedDate, today);
+            return daysLeft <= days;
+        });
+
+            return filteredTodos;
+        };
 
     return {
         init,

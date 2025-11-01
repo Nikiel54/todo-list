@@ -169,9 +169,10 @@ export const uiController = (() => {
 
 
     // Modular function which displays all task items and their states (completed or not).
-    const displayAllTasks = () => {
-        const allDays = -1;
-        const todoListObjs = todoController.filterOngoingTasks(allDays);
+    const displayTasks = (days, completed) => {
+        console.log("Inside ui controller now");
+        const todoListObjs = todoController.filterOngoingTasks(days, completed);
+        console.log(todoListObjs);
         const contentSection = document.getElementById("content-section");
         contentSection.innerHTML = ""; // reset list
         contentSection.appendChild(displayDivider());
@@ -183,10 +184,18 @@ export const uiController = (() => {
         })
     }
 
+    const updateContentHeaders = (title, subTitle) => {
+        const contentHeader = document.querySelector("#content-header h1");
+        const contentSubHdr = document.querySelector(".content-section-hdr h2");
+
+        contentHeader.textContent = title;
+        contentSubHdr.textContent = subTitle;
+    }
 
 
     return {
-        displayAllTasks,
+        displayTasks,
+        updateContentHeaders,
     }
 })();
 

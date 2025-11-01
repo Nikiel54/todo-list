@@ -9,14 +9,25 @@ export const FAR_FUTURE = "9999-12-31T23:59:59.999Z";
 
 export const eventController = (() => {
     const dialogForm = document.querySelector(".todo-form");
-    let lastClickedSection = null;
+    let lastClickedSection = document.querySelector('button[data-section="Upcoming"]');
+    const activeColor = "#F2C57C";
+    const inactiveColor = "#FAF3E0";
 
     const setEvents = () => {
         createTaskEvent();
         newTaskShowEvent();
         closeNewTaskForm();
+        initSidebarSections();
         sidebarClickEvents();
         actionBtnEvents();
+    }
+
+    // Means to set the upcoming section to active by default.
+    const initSidebarSections = (lastClickedSection) => {
+        lastClickedSection = document.querySelector('button[data-section="Upcoming"]');
+        let lastClickedSvg = lastClickedSection.querySelector("svg");
+        lastClickedSection.style.color = activeColor;
+        lastClickedSvg.style.fill = activeColor;
     }
 
     function turnOffAddBtn(newTaskBtn) {
@@ -73,7 +84,6 @@ export const eventController = (() => {
             } else {
                 console.warn("Incorrect form mode!");
             }
-            
 
             if (creationSuccess) {
                 console.log("Task created successfully!");
@@ -86,7 +96,7 @@ export const eventController = (() => {
             turnOffAddBtn(newTaskBtn);
 
             // Display all tasks stored
-            uiController.displayAllTasks();
+            uiController.displayTasks(-1, true);
             actionBtnEvents();
 
             let list = loadItemData();
@@ -163,41 +173,62 @@ export const eventController = (() => {
 
     // Makes clicking sidebar sections interactible
     function sidebarClickEvents() {
-    const sidebarBtns = document.querySelectorAll(".sidebar-row > button");
-    const activeColor = "#F2C57C";
-    const inactiveColor = "#FAF3E0";
+        const sidebarBtns = document.querySelectorAll(".sidebar-row > button");
 
-    sidebarBtns.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-        const clickedBtn = e.currentTarget;
+        sidebarBtns.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                const clickedBtn = e.currentTarget;
 
-        // If we already had a selected button, reset its color
-        if (lastClickedSection && lastClickedSection !== clickedBtn) {
-            const prevSvg = lastClickedSection.querySelector("svg");
-            lastClickedSection.style.color = inactiveColor;
-            if (prevSvg) prevSvg.style.fill = inactiveColor;
-            lastClickedSection.dataset.id = "unfocused";
-        }
+                // If we already had a selected button, reset its color
+                if (lastClickedSection && lastClickedSection !== clickedBtn) {
+                    const prevSvg = lastClickedSection.querySelector("svg");
+                    lastClickedSection.style.color = inactiveColor;
+                    if (prevSvg) prevSvg.style.fill = inactiveColor;
+                    lastClickedSection.dataset.id = "unfocused";
+                }
 
-        // Toggle the clicked button
-        const svgChild = clickedBtn.querySelector("svg");
-        const isActive = clickedBtn.dataset.id === "displaying";
+                // Toggle the clicked button
+                const svgChild = clickedBtn.querySelector("svg");
+                const isActive = clickedBtn.dataset.id === "displaying";
 
-        if (isActive) {
-            // turn off
-            clickedBtn.style.color = inactiveColor;
-            if (svgChild) svgChild.style.fill = inactiveColor;
-            clickedBtn.dataset.id = "unfocused";
-            lastClickedSection = null;
-        } else {
-            // turn on
-            clickedBtn.style.color = activeColor;
-            if (svgChild) svgChild.style.fill = activeColor;
-            clickedBtn.dataset.id = "displaying";
-            lastClickedSection = clickedBtn;
-        }
+                if (isActive) {
+                    // turn off
+                    clickedBtn.style.color = inactiveColor;
+                    if (svgChild) svgChild.style.fill = inactiveColor;
+                    clickedBtn.dataset.id = "unfocused";
+                    lastClickedSection = null;
+                } else {
+                    // turn on
+                    clickedBtn.style.color = activeColor;
+                    if (svgChild) svgChild.style.fill = activeColor;
+                    clickedBtn.dataset.id = "displaying";
+                    lastClickedSection = clickedBtn;
+                }
+
+                // Call display function to display selected section
+                const section = clickedBtn.dataset.section;
+                let days = 0;
+
+                switch (section) {
+                    case "Upcoming":
+                        uiController.updateContentHeaders("Upcoming", "My Tasks");
+                        days = -1; // filter nothing and display all
+                        uiController.displayTasks(days, false);
+                        break;
+                    case "Today":
+                        uiController.updateContentHeaders("Today", "Tasks For Today");
+                        days = 0; // display today
+                        uiController.displayTasks(days, false)
+                        break;
+                    case "Completed":
+                        console.log("Clicked Complete section");
+                        uiController.updateContentHeaders("Completed", "Finished Tasks");
+                        days = -1; // display all that are completed
+                        uiController.displayTasks(days, true);
+                        break;
+                }
+            });
         });
-    });
     }
 
 
@@ -211,12 +242,35 @@ export const eventController = (() => {
 
             const action = Btn.dataset.action;
             const taskId = Btn.dataset.taskId;
+            const displayedSection = lastClickedSection.dataset.section;
+            let completed = false;
+            let days;
+
+            // Figuring out which section to redisplay
+            switch (displayedSection) {
+                case "Upcoming":
+                    days = -1;
+                    completed = false;
+                    break;
+                case "Today":
+                    days = 0; // display today
+                    completed = false;
+                    break;
+                case "Completed":
+                    days = -1;
+                    completed = true;
+                    break;
+            }
 
             switch (action) {
                 case "Check":
                 const isComplete = Btn.dataset.state === "complete";
                 todoController.updateTodoItem(taskId, { completed: !isComplete });
-                uiController.displayAllTasks(); // re-render
+                uiController.displayTasks(days, completed); // re-render
+                console.log("Marked Complete");
+                let list1 = loadItemData();
+                console.log("Stored tasks:");
+                console.log(list1);
                 break;
 
                 case "Edit":
@@ -228,7 +282,7 @@ export const eventController = (() => {
 
                 case "Remove":
                 todoController.deleteTodoItem(taskId);
-                uiController.displayAllTasks();
+                uiController.displayTasks(days, completed);
                 console.log("Item removed");
                 let list = loadItemData();
                 console.log("Stored tasks:");
