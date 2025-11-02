@@ -180,7 +180,6 @@ export const uiController = (() => {
         console.log(todoListObjs);
         const contentSection = document.getElementById("content-section");
         contentSection.innerHTML = ""; // reset list
-        contentSection.appendChild(displayDivider());
 
         todoListObjs.forEach((task) => {
             // build html for the task and dividers then append to content section
