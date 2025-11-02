@@ -181,6 +181,14 @@ export const uiController = (() => {
         const contentSection = document.getElementById("content-section");
         contentSection.innerHTML = ""; // reset list
 
+        if (todoListObjs.length === 0) {
+            const emptyText = "Looks like there's no tasks as yet...";
+            const emptyTextDisplay = document.createElement("h1");
+            emptyTextDisplay.textContent = emptyText;
+            emptyTextDisplay.classList.add("emptyTextDisplay");
+            contentSection.appendChild(emptyTextDisplay);
+        }
+
         todoListObjs.forEach((task) => {
             // build html for the task and dividers then append to content section
             contentSection.appendChild(displayTask(task));

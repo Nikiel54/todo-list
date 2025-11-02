@@ -97,17 +97,14 @@ h1, h2, h3, h4, p, div {
     fill: var(--bg-cream);
 }
 
-#display-content {
-    flex: 1 1 auto;
-    background-color: var(--bg-cream);
-}
-
 /* END OF SIDEBAR STYLING */
 
 
 /* MAIN CONTENT STYLING */
 
 #display-content {
+    flex: 1 1 auto;
+    background-color: var(--bg-cream);
     display: flex;
     flex-direction: column;
     padding-left: 50px;
@@ -136,6 +133,13 @@ h1, h2, h3, h4, p, div {
     overflow-x: hidden;
     scroll-behavior: smooth;
     padding-bottom: 40px;
+    border-top: 1px solid var(--muted-grey);
+}
+
+#content-section > .emptyTextDisplay {
+    margin-top: 30px;
+    color: var(--muted-grey);
+    font-size: 26px;
 }
 
 /* Optional: add subtle scrollbar styling */
@@ -397,6 +401,19 @@ h1, h2, h3, h4, p, div {
 /* End of form styling */
 
 
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* Login form styling */
 
 #login-dialog {
@@ -487,16 +504,4 @@ h1, h2, h3, h4, p, div {
 
 #login-form > button[type="button"]:hover svg {
   fill: var(--wheat-gold);
-}
-
-/* ---------- ANIMATIONS ---------- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
