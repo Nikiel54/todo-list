@@ -1,4 +1,4 @@
-# 🪴 To-Do List App  
+# 🪴 OakTasks - To-Do List App  
 
 A **modular JavaScript to-do list** built with **Webpack**, featuring persistent data via **localStorage**, and a cozy, nature-inspired UI theme.  
 
