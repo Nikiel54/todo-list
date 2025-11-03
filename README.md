@@ -5,7 +5,7 @@ A **modular JavaScript to-do list** built with **Webpack**, featuring persistent
 ---
 
 ## 🌿 Live Demo  
-👉 [**View on GitHub Pages**](https://nikiel54.github.io/todo-list/)  
+👉 [**View on GitHub Pages**](https://nikiel54.github.io/OakTasks/)  
 
 ---
 
