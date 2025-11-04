@@ -18,6 +18,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/template.html",
+      favicon: "./assets/flat-sprouting-seedling-sapling-icon-vector-20048104.avif"
     }),
   ],
   module: {
