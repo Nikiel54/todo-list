@@ -29,7 +29,7 @@ h1, h2, h3, h4, p, div {
 
 /* SIDEBAR STYLING */
 #sidebar {
-    flex: 0 1 300px;
+    flex: 0 1 25vw;
     background: linear-gradient(180deg, var(--mossy-green), var(--spring-green));
     box-shadow: 2px 0 6px rgba(0,0,0,0.15);
     display: grid;
