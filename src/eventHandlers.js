@@ -3,8 +3,6 @@ import { loadItemData, setUserName } from "./database_queries.js";
 import { format, parseISO, isValid } from 'date-fns';
 import { uiController } from "./ui.js";
 
-
-
 export const FAR_FUTURE = "9999-12-31T23:59:59.999Z";
 
 export const eventController = (() => {
@@ -86,9 +84,6 @@ export const eventController = (() => {
                 console.warn("Incorrect form mode!");
             }
 
-            if (creationSuccess) {
-                console.log("Task created successfully!");
-            }
 
             addTaskForm.reset();
             dialogForm.close();
@@ -119,10 +114,6 @@ export const eventController = (() => {
 
             // sets back functionality to task buttons
             actionBtnEvents();
-
-            let list = loadItemData();
-            console.log("Stored tasks:");
-            console.log(list);
         })
     }
 
@@ -169,7 +160,6 @@ export const eventController = (() => {
         // change to edit mode
         addTaskForm.dataset.mode = "Edit";
         addTaskForm.dataset.itemId = itemId;
-        console.log(itemId);
 
         const editBtn = addTaskForm.querySelector(".submit-btn > button");
         editBtn.textContent = "Save Changes";
@@ -254,7 +244,6 @@ export const eventController = (() => {
                         uiController.displayTasks(days, false)
                         break;
                     case "Completed":
-                        console.log("Clicked Complete section");
                         uiController.updateContentHeaders("Completed", "Finished Tasks");
                         days = -1; // display all that are completed
                         uiController.displayTasks(days, true);
@@ -305,26 +294,17 @@ export const eventController = (() => {
                 const isComplete = Btn.dataset.state === "complete";
                 todoController.updateTodoItem(taskId, { completed: !isComplete });
                 uiController.displayTasks(days, completed); // re-render
-                console.log("Marked Complete");
-                let list1 = loadItemData();
-                console.log("Stored tasks:");
-                console.log(list1);
                 break;
 
                 case "Edit":
                 // open edit form.
                 const task = todoController.readTodoItem(taskId);
                 openEditForm(task, taskId);
-                console.log("Edit clicked");
                 break;
 
                 case "Remove":
                 todoController.deleteTodoItem(taskId);
                 uiController.displayTasks(days, completed);
-                console.log("Item removed");
-                let list = loadItemData();
-                console.log("Stored tasks:");
-                console.log(list);
                 break;
             }
         })

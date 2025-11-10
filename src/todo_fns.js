@@ -27,9 +27,7 @@ export const todoController = (() => {
         const success = addTodoItem(newItem);
         // Can return true or false here as well to signal to UI modules if failure or success
         if (!success) {
-            console.log("Error: item already exists.");
-        } else {
-            console.log("Succesful addition.");
+            console.warn("Error: item already exists.");
         }
     }
 
@@ -86,7 +84,6 @@ export const todoController = (() => {
     const updateTodoItem = (itemId, newData) => {
         const itemIndex = todos.findIndex(item => item.id == itemId);
         if (itemIndex === -1) {
-            console.log("Error: Todo Item not found!");
             return todos;
         }
 
@@ -136,22 +133,17 @@ export const todoController = (() => {
 
 
     const filterOngoingTasks = (days, completed) => {
-        console.log(`${days}, ${completed}`);
-        console.log("Inside filterer now");
         // This filters by days
         const today = startOfDay(new Date());
         sortTodosByDueDate();
-        console.log("Sorted");
         let filteredTodos = todos;
 
         // filter on completion first
         if (completed === true) {
-            console.log("Filtered for complete");
             filteredTodos = todos.filter(task => task.completed === true);
         }
         
         if (days < 0) {
-            console.log("Return all");
             return filteredTodos;
         }
 

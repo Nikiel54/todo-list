@@ -175,9 +175,7 @@ export const uiController = (() => {
 
     // Modular function which displays all task items and their states (completed or not).
     const displayTasks = (days, completed) => {
-        console.log("Inside ui controller now");
         const todoListObjs = todoController.filterOngoingTasks(days, completed);
-        console.log(todoListObjs);
         const contentSection = document.getElementById("content-section");
         contentSection.innerHTML = ""; // reset list
 
